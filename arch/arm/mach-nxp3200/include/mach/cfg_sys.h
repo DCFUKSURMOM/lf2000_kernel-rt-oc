@@ -49,10 +49,12 @@
 // +-------------+-----+-----+-----+
 //------------------------------------------------------------------------------
 #define	CFG_SYS_PLL0_P		3		//  1 <=, <= 63
-//#define	CFG_SYS_PLL0_M		400		// 64 <=, <= 1023
-#define	CFG_SYS_PLL0_M		350		// 64 <=, <= 1023
+#define	CFG_SYS_PLL0_M		400		// 64 <=, <= 1023
+//#define	CFG_SYS_PLL0_M		350		// 64 <=, <= 1023
 //#define	CFG_SYS_PLL0_M		534		// 64 <=, <= 1023
 //#define	CFG_SYS_PLL0_M		133		// 64 <=, <= 1023
+//#define	CFG_SYS_PLL0_M		267		// 64 <=, <= 1023
+
 #define	CFG_SYS_PLL0_S		1		// 0, 1, 2, 3
 #define	CFG_SYS_PLL0_FREQ	CFG_SYS_PLL_PMSFUNC(CFG_SYS_PLLFIN, CFG_SYS_PLL0_P, CFG_SYS_PLL0_M, CFG_SYS_PLL0_S)
 
@@ -118,7 +120,7 @@ typedef enum {
 
 extern u_int cpu_get_clock_hz(cfg_sys_clksrc clk);
 
-#if 0	// sesters: removed as the DDR and CPU speeds are set by U-Boot
+#if 1	// sesters: removed as the DDR and CPU speeds are set by U-Boot
 //------------------------------------------------------------------------------
 // CPU clock
 //------------------------------------------------------------------------------
@@ -130,6 +132,7 @@ extern u_int cpu_get_clock_hz(cfg_sys_clksrc clk);
 #define	CFG_SYS_CPU_BUSDIV_550			4
 #define CFG_SYS_CPU_BUSDIV_700			4
 #define	CFG_SYS_CPU_BUSDIV_800			4
+#define	CFG_SYS_CPU_BUSDIV              4
 
 //------------------------------------------------------------------------------
 // System clock

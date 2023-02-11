@@ -30,14 +30,16 @@
  * 	System PLL / BUS config
  */
 /* cpu clock : fclk mclk bclk pclk */
-#define	CFG_SYS_CLKPWR_UPDATE					CFALSE
-#define	CFG_SYS_CLKPWR_SYNC_BUS					CFALSE
+#define	CFG_SYS_CLKPWR_UPDATE					CTRUE
+#define	CFG_SYS_CLKPWR_SYNC_BUS					CTRUE
+
+#define CFG_SYS_CPU_CORE_FREQ                   1
 
 /* memory timing config : not stable */
 
-#define CFG_SYS_MCUD_UPDATE						CFALSE
+#define CFG_SYS_MCUD_UPDATE						CTRUE
 #define CFG_SYS_MCUD_USE						CTRUE
-#define	CFG_SYS_MCUD_DLLRESET					CFALSE
+#define	CFG_SYS_MCUD_DLLRESET					CTRUE
 
 /* memory bus arbiter config  */
 #define CFG_SYS_UPDATE_FASTCH					CFALSE

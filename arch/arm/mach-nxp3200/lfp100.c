@@ -329,6 +329,8 @@ static ssize_t show_volume(struct device *dev, struct device_attribute *attr,
 	u32 tmp;
 
 	tmp = lfp100_read_reg(LFP100_VOLUME);
+	printk(KERN_WARNING "%s: LFP100 DCDC1 set to 0x%X\n",
+		__FUNCTION__, lfp100_read_reg(LFP100_DCDC1_PW));
 	return sprintf(buf, "VOLUME = %d\n", tmp);
 }
 

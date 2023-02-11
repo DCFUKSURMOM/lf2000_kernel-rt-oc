@@ -32,8 +32,9 @@
 /* nexell soc headers */
 #include <mach/platform.h>
 
+
 #if (1)
-#define DBGOUT(msg...)		{ printk("cpu: " msg); }
+#define DBGOUT(msg...)		{ lldebugout("cpu: " msg); }
 #else
 #define DBGOUT(msg...)		do {} while (0)
 #endif
@@ -69,9 +70,17 @@ void cpu_base_init(void)
 	DBGOUT("base init\n");
 
 	proto_init();
+	DBGOUT("bus_init\n");
+
 	bus_init();
+	DBGOUT("pll_init\n");
+
 	pll_init();
+	DBGOUT("pll_info\n");
+
 	pll_info();
+	DBGOUT("boot_mode\n");
+
 #if defined(CONFIG_PM)
 	boot_mode();
 #endif
@@ -276,17 +285,24 @@ static void pll_init(void)
 	pre_fclk = cpu_get_clock_hz(2);
 	pre_mclk = cpu_get_clock_hz(3);
 
+		DBGOUT("pll_init 1\n");
+
+
 	/* Update CPU PLL only */
 	#if (CTRUE == CFG_SYS_CLKPWR_UPDATE && CTRUE != CFG_SYS_MCUD_UPDATE)
 	{
+			DBGOUT("pll_init 2\n");
+
 		/* Bus mode */
 		if (CFG_SYS_CPU_BUSDIV != (CFG_SYS_MCLK_DIV * CFG_SYS_BCLK_DIV))
 			NX_CLKPWR_SetCPUBUSSyncMode(CFALSE);
+	DBGOUT("pll_init 3\n");
 
 		#if (CFG_SYS_CLKPWR_SYNC_BUS)
 			if (CFG_SYS_CPU_BUSDIV == (CFG_SYS_MCLK_DIV * CFG_SYS_BCLK_DIV))
 				NX_CLKPWR_SetCPUBUSSyncMode(CTRUE);
 		#endif
+	DBGOUT("pll_init 4\n");
 
 		/* Pll change */
 		NX_CLKPWR_SetClockCPU(CFG_SYS_CPU_CLKSRC, CFG_SYS_CPU_COREDIV, CFG_SYS_CPU_BUSDIV);
@@ -295,8 +311,11 @@ static void pll_init(void)
 		NX_CLKPWR_SetPLLPowerOn(CFG_SYS_PLL1_USE);
 		NX_CLKPWR_SetPLLPMS(1, CFG_SYS_PLL1_P, CFG_SYS_PLL1_M, CFG_SYS_PLL1_S);
 		NX_CLKPWR_DoPLLChange();
+	DBGOUT("pll_init 5\n");
 
 		while (CFALSE == NX_CLKPWR_IsPLLStable()) { ; }
+			DBGOUT("pll_init 6\n");
+
 	}
 	#endif
 
@@ -306,14 +325,22 @@ static void pll_init(void)
 		/* When faster more than current */
 		if (CFG_SYS_MCLK_FREQ > pre_mclk)
 		{
+
+
+						DBGOUT("pll_init 7\n");
+
 			/* 1. SetMemCfg */
 			NX_MCUD_SetCASLatency	(CFG_SYS_MCUD_CASLAT);
 			NX_MCUD_SetDelayLatency	(CFG_SYS_MCUD_DLYLAT);
+			DBGOUT("pll_init 8\n");
 
 			/* 2. InitialMemConfig */
 			NX_MCUD_ApplyModeSetting();
+			DBGOUT("pll_init 9\n");
 
 			while (NX_MCUD_IsBusyModeSetting()) { ; }
+
+			DBGOUT("pll_init 10\n");
 
 			/* 3. SetMemTime */
 			NX_MCUD_SetMRD	(CFG_SYS_MCUD_TMRD);
@@ -326,6 +353,8 @@ static void pll_init(void)
 			NX_MCUD_SetRTP	(CFG_SYS_MCUD_TRTP);
 			NX_MCUD_SetActivePowerDownEnable(CFG_SYS_MCUD_ACTPDENB);
 			NX_MCUD_SetActivePowerDownPeriod(CFG_SYS_MCUD_ACTPDPRED);
+
+			DBGOUT("pll_init 11\n");
 
 			/* 4. SetDLL */
 			#if 	(CFG_SYS_MCLK_FREQ >= 400000000)
@@ -345,33 +374,58 @@ static void pll_init(void)
 			#else
 			NX_MCUD_PHYDLL_SetConfig(CTRUE , 0x7F, 0x7F);
 			#endif
+			DBGOUT("pll_init 12\n");
 
 			NX_MCUD_SetDLLReset(CFG_SYS_MCUD_DLLRESET);
+						DBGOUT("pll_init 12.1\n");
+
 			NX_MCUD_SetMCLKConfig((CFG_SYS_BCLK_DIV == 2) ? CTRUE : CFALSE, (CFG_SYS_MCLK_FREQ >= 200000000) ? CTRUE : CFALSE);
+			DBGOUT("pll_init 12.2\n");
 
 			/* 5. Pll change */
 			if (CFG_SYS_CPU_CORE_FREQ != pre_fclk)
 			{
+							DBGOUT("pll_init 12.3\n");
+
 				NX_CLKPWR_SetClockCPU(CFG_SYS_CPU_CLKSRC, CFG_SYS_CPU_COREDIV, CFG_SYS_CPU_BUSDIV);
+							DBGOUT("pll_init 12.4\n");
+
 				NX_CLKPWR_SetClockMCLK(CFG_SYS_MCLK_CLKSRC, CFG_SYS_MCLK_DIV, CFG_SYS_BCLK_DIV, CFG_SYS_PCLK_DIV);
+			DBGOUT("pll_init 12.5\n");
+
 				NX_CLKPWR_SetPLLPMS(0, CFG_SYS_PLL0_P, CFG_SYS_PLL0_M, CFG_SYS_PLL0_S);
+			DBGOUT("pll_init 12.6\n");
+
 				NX_CLKPWR_SetPLLPowerOn(CFG_SYS_PLL1_USE);
+			DBGOUT("pll_init 12.7\n");
+
 				NX_CLKPWR_SetPLLPMS(1, CFG_SYS_PLL1_P, CFG_SYS_PLL1_M, CFG_SYS_PLL1_S);
+			DBGOUT("pll_init 12.8\n");
+
 				NX_CLKPWR_DoPLLChange();
+			DBGOUT("pll_init 13\n");
 
 				while (CFALSE == NX_CLKPWR_IsPLLStable()) { ; }
+							DBGOUT("pll_init 14\n");
+
 			}
 
 			/* 6. SetMemRefresh */
 			NX_MCUD_SetRefreshPeriod(CFG_SYS_MCUD_REFPRED);
+						DBGOUT("pll_init 15\n");
+
 		}
 		else if (pre_mclk > CFG_SYS_MCLK_FREQ)
 		{
+						DBGOUT("pll_init 16\n");
+
 			/* 1. SetMemCfg */
 			NX_MCUD_SetDelayLatency(CFG_SYS_MCUD_DLYLAT);
+			DBGOUT("pll_init 17\n");
 
 			/* 2. SetMemRefresh */
 			NX_MCUD_SetRefreshPeriod(CFG_SYS_MCUD_REFPRED);
+			DBGOUT("pll_init 18\n");
 
 			/* 3. SetDLL */
 			#if 	(CFG_SYS_MCLK_FREQ >= 400000000)
@@ -394,6 +448,7 @@ static void pll_init(void)
 
 			NX_MCUD_SetDLLReset(CFG_SYS_MCUD_DLLRESET);
 			NX_MCUD_SetMCLKConfig((CFG_SYS_BCLK_DIV == 2) ? CTRUE : CFALSE, (CFG_SYS_MCLK_FREQ >= 200000000) ? CTRUE : CFALSE);
+			DBGOUT("pll_init 19\n");
 
 			/* 4. Pll change */
 			if (CFG_SYS_CPU_CORE_FREQ != pre_fclk)
@@ -406,6 +461,8 @@ static void pll_init(void)
 				NX_CLKPWR_DoPLLChange();
 
 				while (CFALSE == NX_CLKPWR_IsPLLStable()) { ; }
+							DBGOUT("pll_init 20\n");
+
 			}
 
 			/* 5. SetMemTime */
@@ -427,11 +484,15 @@ static void pll_init(void)
 			NX_MCUD_ApplyModeSetting();
 
 			while (NX_MCUD_IsBusyModeSetting()) { ; }
+						DBGOUT("pll_init 21\n");
+
 		}
 		else
 		{
 			if (CFG_SYS_CPU_CORE_FREQ != pre_fclk)
 			{
+							DBGOUT("pll_init 22\n");
+
 				NX_CLKPWR_SetClockCPU(CFG_SYS_CPU_CLKSRC, CFG_SYS_CPU_COREDIV, CFG_SYS_CPU_BUSDIV);
 				NX_CLKPWR_SetClockMCLK(CFG_SYS_MCLK_CLKSRC, CFG_SYS_MCLK_DIV, CFG_SYS_BCLK_DIV, CFG_SYS_PCLK_DIV);
 				NX_CLKPWR_SetPLLPMS(0, CFG_SYS_PLL0_P, CFG_SYS_PLL0_M, CFG_SYS_PLL0_S);
@@ -440,6 +501,8 @@ static void pll_init(void)
 				NX_CLKPWR_DoPLLChange();
 
 				while (CFALSE == NX_CLKPWR_IsPLLStable()) { ; }
+							DBGOUT("pll_init 23\n");
+
 			}
 		}
 	}

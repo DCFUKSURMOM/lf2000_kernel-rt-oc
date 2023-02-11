@@ -327,7 +327,8 @@ static ssize_t show_volume(struct device *dev, struct device_attribute *attr,
 			char *buf)
 {
 	u32 tmp;
-
+	printk(KERN_WARNING "%s: LFP100 DCDC1 set to 0x%X\n",
+		__FUNCTION__, lfp100_read_reg(LFP100_DCDC1_PW));
 	tmp = lfp100_read_reg(LFP100_VOLUME);
 	return sprintf(buf, "VOLUME = %d\n", tmp);
 }
@@ -1106,6 +1107,16 @@ static int lfp100_chip_probe(struct platform_device *pdev)
 	printk(KERN_INFO "%s: gpio_to_irq(%d) = %d\n", __FUNCTION__, LFP100_INT, gpio_to_irq(LFP100_INT));
 	enable_irq(gpio_to_irq(LFP100_INT));
 	printk(KERN_INFO "%s: success %s\n", __FUNCTION__, LFP100_NAME);
+
+//HACK HACK HACK
+			#if 	(CFG_SYS_MCLK_FREQ >= 266666666)
+				lfp100_write_reg(LFP100_DCDC1_PW, LFP100_DCDC1_PW_1P3_VOLTS);
+        		mdelay(100);// Give power time to settle to new level
+				printk(KERN_WARNING "%s: Clock faster than stock; LFP100 DCDC1 set to 0x%X\n",
+					__FUNCTION__, lfp100_read_reg(LFP100_DCDC1_PW));
+					
+			#endif
+
 
 	ret = 0;
 no_lfp100:

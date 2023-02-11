@@ -87,6 +87,9 @@
 #define LFP100_P_ENABLE_WLED_EN	(1 << 5)
 
 #define LFP100_DCDC1_PW		0x0F
+// Stock vcore (not sure how many volts but clearly <1.3)
+
+#define LFP100_DCDC1_PW_STOCK	(0x13)
 #define LFP100_DCDC1_PW_1P3_VOLTS	(0x17)
 
 #define LFP100_DCDC2_PW		0x10

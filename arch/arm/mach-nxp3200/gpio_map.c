@@ -762,6 +762,8 @@ static void init_rio_ep(void)
 	/* nSCS[2]   - pin C15 */
 
 	/* nSCS[3]   - pin C16 */
+	//gpio_map[TOUCHSCREEN_Y2]	= LF2000_GPIO_PORT_C | 25;
+	//gpio_map[TOUCHSCREEN_X2]	= LF2000_GPIO_PORT_C | 26;
 	gpio_map[NEONODE_TEST]		= LF2000_GPIO_PORT_C | 17;
 	gpio_map[NEONODE_RST]		= LF2000_GPIO_PORT_C | 18;
 	gpio_map[CARTRIDGE_DETECT]	= LF2000_GPIO_PORT_C | 19;
