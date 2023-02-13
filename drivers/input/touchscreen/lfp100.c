@@ -1111,7 +1111,7 @@ static int lfp100_chip_probe(struct platform_device *pdev)
 //HACK HACK HACK
 			#if 	(CFG_SYS_MCLK_FREQ >= 266666666)
 				lfp100_write_reg(LFP100_DCDC1_PW, LFP100_DCDC1_PW_1P3_VOLTS);
-        		mdelay(100);// Give power time to settle to new level
+        		mdelay(200);// Give power time to settle to new level
 				printk(KERN_WARNING "%s: Clock faster than stock; LFP100 DCDC1 set to 0x%X\n",
 					__FUNCTION__, lfp100_read_reg(LFP100_DCDC1_PW));
 					
