@@ -8,13 +8,15 @@ The realtime patch is an old one from kernel.org archives that happened to be co
 
 This kernel can only be built with the RetroLeap buildroot or an exremely ancient GCC
 
-If you want a prebuilt kernel image go here https://github.com/DCFUKSURMOM/lf2000_kernel-rt-oc/releases/download/3.4.24-rt-oc-p1/lf2000_uImage
+If you want a prebuilt kernel image go here https://github.com/DCFUKSURMOM/lf2000_kernel-rt-oc/releases/download/3.4.24-rt-oc-p2/lf2000_uImage
 
 The RetroLeap buildroot is here https://github.com/mac2612/retroleap.git
 
 You'll want to use the source code options and point the menuconfig to my this git repo, the prebuilt releases use the stock RetroLeap kernel
 
-For SD card, NTFS, FAT32, and Swap support, you'll want to use my kernel config file here https://github.com/DCFUKSURMOM/retroleap-configs.git
+My prebuilt kernel as well as the default kernel config for my kernel (retroleap_lf2000_defconfig) have SD, Swap, and Fat32 support enabled
+
+You'll need an SD card adaptor cartridge, there are a few out there already that should work fine but I'm in the process of designing my own specific for LF2000
 
 You'll have to point buildroot to the where you saved the config file
 
