@@ -12,7 +12,13 @@ The latest retroleap aplha has a prebuilt version of my kernel available, there 
 
 My prebuilt kernel (this includes the one in the latest retroleap alpha) has SD, Swap, and Fat32 support enabled
 
-You'll need an SD card adaptor cartridge for those options, there are a few out there already that should work fine but I'm in the process of designing my own specific for LF2000 devices. mainly aimed at the Leapster GS
+To use an SD card you'll need an SD card adapter cartridge, I've designed on that works but its not pre-assembled and can be pricy to put together, the most expensive part is the board shipping.
+
+I don't see a dingle dime of the money, the board files are free, services like jlcpcb and pcbway are just expensive (especially if you go with full assembly)
+
+Board files for my SD cart are here https://github.com/DCFUKSURMOM/LeapSD
+
+If you are ballsy like me you can sacrifice the cartridge slot and hardwire an SD to Micro-SD adapter in like I did for the initial testing, however I plan on attempting to do a combo Wifi/SD cart in the future so I wouldnt recommend it
 
 RETROLEAP BUILDROOT ENVIRONMENT REQUIRED BEYOND THIS POINT!! ADVANCED USERS ONLY!!
 
