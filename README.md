@@ -6,7 +6,7 @@ The overclock patch is from mac2612 https://github.com/mac2612
 
 The realtime patch is an old one from kernel.org archives that happened to be compatible
 
-This kernel can only be built with the RetroLeap buildroot (use "make lf2000_rt_defconfig to point the buildroot to my kernel)
+This kernel can only easily be built with the RetroLeap buildroot, as it includes a GCC 5 toolchain (use "make lf2000_rt_defconfig to point the buildroot to my kernel)
 
 The latest retroleap aplha has a prebuilt version of my kernel available, there is also one here https://github.com/DCFUKSURMOM/lf2000_kernel-rt-oc/releases/download/3.4.24-rt-oc-p2/lf2000_uImage
 
